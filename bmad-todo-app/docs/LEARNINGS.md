@@ -12,7 +12,7 @@ Complete documentation of lessons learned and insights from building bmad-todo u
 **Time Savings**: 50% reduction vs. manual development  
 
 ### Key Results
-- ✅ 52 passing tests (100% of components, 80%+ of hooks)
+- ✅ 131 passing tests (100% of components, 80%+ of hooks)
 - ✅ 8 Playwright E2E tests covering CRUD & persistence
 - ✅ WCAG 2.1 Level AA accessibility compliance
 - ✅ Production-ready Docker setup
@@ -66,10 +66,10 @@ Writing comprehensive tests is time-consuming. Can AI help without sacrificing t
 - **Tests as Specification**: Well-written tests became the contract for implementation
 - **AI Loves Test Patterns**: Jest patterns are predictable enough for reliable AI generation
 - **Mock Setup is Tedious**: AI excels at this (reduced manual work 80%)
-- **Coverage is Achievable**: 75%+ coverage is natural outcome of TDD, not forced
+- **Coverage is Achievable**: 88%+ coverage is natural outcome of TDD, not forced
 
 ### Evidence
-- 52 total tests passing with only 2 manual adjustments
+- 131 total tests passing with only 2 manual adjustments
 - Component tests: 21 tests, 100% coverage (no tweaks needed)
 - Hook tests: 12 tests, 80% coverage (1 timeout adjustment)
 - Database tests: 19 tests, 100% coverage (1 query logging fix)
@@ -467,7 +467,7 @@ Step 3: "Given A and B, generate component C"
 
 | Metric | Generated | Manual | Delta |
 |--------|-----------|--------|-------|
-| Test Coverage | 75% | ~70% | +5% |
+| Test Coverage | 88%+ | ~70% | +18%+ |
 | Cyclomatic Complexity | 2.1 | 2.3 | -9% |
 | Lines of Code | 1250 | 1400 | -11% |
 | Documentation | 40% | 35% | +5% |

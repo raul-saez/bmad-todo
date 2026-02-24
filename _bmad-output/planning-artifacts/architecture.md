@@ -14,9 +14,6 @@ coreDecisions:
   orm: 'Prisma'
   validation: 'Zod'
   clientStorage: 'IndexedDB + localStorage'
-  tabMessaging: 'Broadcast Channel API + localStorage fallback'
-  conflictResolution: 'Timestamp-based Last-Write-Wins'
-  syncVisibility: 'Color-coded badge + text'
 patternsCount: 10
 projectStructureStatus: 'complete'
 validationStatus: 'complete'
@@ -33,8 +30,8 @@ _This document builds collaboratively through step-by-step discovery. Sections a
 **Classification:** Web App (SPA + Backend API) | General Domain | Low Complexity | Greenfield
 
 **Key Requirements from PRD:**
-- 47 Functional Requirements (CRUD operations, data persistence, cross-tab sync, accessibility, performance)
-- 37 Non-Functional Requirements (performance targets <100ms, zero data loss, WCAG AA accessibility, browser compatibility)
+- 40 Functional Requirements (CRUD operations, data persistence, accessibility, performance)
+- 29 Non-Functional Requirements (performance targets <100ms, zero data loss, WCAG AA accessibility, browser compatibility)
 - MVP strategy focuses on Experience + Portfolio blend
 - All interactions must feel instant, data must persist reliably, code must be reference-quality
 
@@ -137,27 +134,26 @@ npm install --save-dev \
 
 ### Requirements Overview
 
-**Functional Requirements (47 total):**
-The application is a task management tool with CRUD operations, reliable persistence, and advanced synchronization. Core capabilities:
+**Functional Requirements (40 total):**
+The application is a task management tool with CRUD operations and reliable persistence. Core capabilities:
 - **Todo Management:** Create, read, complete, delete with metadata (title, completion status, created timestamp)
 - **Data Persistence:** IndexedDB primary storage with localStorage fallback, crash recovery
-- **Cross-Tab Synchronization:** Real-time updates across browser tabs using Broadcast Channel API with SharedWorker fallback
 - **Accessibility-First UI:** WCAG 2.1 Level AA from MVP (keyboard navigation, screen readers, high contrast)
 - **Responsive Design:** Desktop through mobile with touch interaction support
 - **SEO Optimization:** Meta tags, structured data, social sharing support
 
-**Non-Functional Requirements (37 total):**
+**Non-Functional Requirements (29 total):**
 Portfolio differentiator is in *execution quality*:
-- **Performance:** <100ms for all user actions, <1s for cross-tab sync, <2s page load
-- **Reliability:** Zero data loss across sessions and crashes, deterministic conflict resolution
+- **Performance:** <100ms for all user actions, <2s page load
+- **Reliability:** Zero data loss across sessions and crashes
 - **Code Quality:** >80% test coverage, clean code, well-documented architecture
 - **Compatibility:** Chrome, Firefox, Safari, Edge (latest 2 versions)
 - **Accessibility:** Full keyboard navigation, screen reader support, proper contrast ratios
 
 ### Architectural Complexity Drivers
 
-**Primary Driver - Data Consistency at Scale:**
-Cross-tab synchronization with sub-1-second latency and zero data loss is the key technical complexity. The data model (simple todos) allows focus on execution quality rather than feature complexity.
+**Primary Driver - Data Persistence & Reliability:**
+IndexedDB with localStorage fallback and zero data loss is the key technical complexity. The data model (simple todos) allows focus on execution quality rather than feature complexity.
 
 **Secondary Driver - Quality as Architecture:**
 The >80% test coverage requirement isn't just a metric—it's an architectural constraint. Components must be testable, well-separated, and understandable by other developers. Portfolio value depends on code clarity.
@@ -177,12 +173,11 @@ The three user journeys reveal architectural patterns:
 2. **Jordan's Journey (Trust Through Persistence):**
    - Reveals reliability requirements
    - Drives persistence layer design (IndexedDB + fallback)
-   - Shapes data recovery and sync protocols
+   - Shapes data recovery protocols
 
 3. **Casey's Journey (Robust Error Handling):**
    - Reveals failure mode requirements
    - Drives error recovery architecture
-   - Shapes sync conflict resolution strategy
 
 **Architectural Implication:** Every component family traces back to one of these narratives. This makes the architecture *teachable* and *understandable*.
 
@@ -190,25 +185,23 @@ The three user journeys reveal architectural patterns:
 
 **Browser APIs Required:**
 - IndexedDB (primary persistent storage)
-- Broadcast Channel API (cross-tab messaging with SharedWorker fallback)
 - Service Worker (crash recovery, offline capability)
 - Fetch API (backend communication)
 - Local Storage (lightweight fallback persistence)
 
 **Performance Budget:**
-Must maintain <100ms interaction latency with up to 10,000 todos in local storage. Simple data model means no complex query optimization needed—focus is on render performance and sync efficiency.
+Must maintain <100ms interaction latency with up to 10,000 todos in local storage. Simple data model means no complex query optimization needed—focus is on render performance and storage efficiency.
 
 **Data Persistence Architecture:**
-- **Primary Store:** IndexedDB (reliable, large capacity, cross-tab observable)
-- **Sync Protocol:** Timestamp-based deterministic resolution (last-write-wins based on creation order for determinism)
+- **Primary Store:** IndexedDB (reliable, large capacity)
 - **Fallback:** localStorage for browsers with IndexedDB limitations
 - **Crash Recovery:** Service Worker intercepts and replays pending operations
 
 **Testing Requirements:**
->80% coverage forces separation of concerns. State management, UI components, persistence layer, and sync logic must be independently testable.
+>80% coverage forces separation of concerns. State management, UI components, and persistence layer must be independently testable.
 
 **Browser Support Matrix:**
-All target browsers support required APIs. Progressive enhancement means graceful degradation if modern APIs unavailable (Broadcast Channel → polling fallback, Service Worker → standard caching).
+All target browsers support required APIs. Progressive enhancement means graceful degradation if modern APIs unavailable (Service Worker → standard caching).
 
 ### Five Architectural Consensus Points
 
@@ -218,7 +211,7 @@ From multi-perspective analysis (architect, analyst, designer):
    - IndexedDB as source of truth
    - localStorage as reliable fallback
    - ServiceWorker for crash recovery
-   - Broadcast Channel for deterministic cross-tab sync
+   - Focus on reliable persistence and recovery
 
 2. **Component Design Driven by User Journeys**
    - Persistence components explain themselves through "trust" narrative (Jordan)
@@ -247,23 +240,24 @@ From multi-perspective analysis (architect, analyst, designer):
 ### Scale & Complexity Assessment
 
 - **Data Model Complexity:** Low (todos with title, status, timestamp)
-- **Feature Complexity:** Low (standard CRUD with sync)
+- **Feature Complexity:** Low (standard CRUD)
 - **Execution Quality Bar:** High (portfolio-grade reference implementation)
 - **Testing Surface:** Large (>80% coverage requirement drives comprehensive test architecture)
-- **Estimated Components:** 8-10 architectural components
-- **Estimated Code Volume:** 2,000-3,000 LOC (frontend + backend)
+- **Estimated Components:** 6-8 architectural components
+- **Estimated Code Volume:** 1,500-2,000 LOC (frontend + backend)
 
 ### MVP Scope Implications
 
 **In Scope (MVP Must Include):**
-- All 47 Functional Requirements (core CRUD + sync + accessibility + performance)
-- All 37 Non-Functional Requirements (quality standards, browser support, performance targets)
+- All 40 Functional Requirements (core CRUD + accessibility + performance)
+- All 29 Non-Functional Requirements (quality standards, browser support, performance targets)
 - Three user journeys fully supported
 - >80% test coverage
 
 **Out of Scope (Phase 2+):**
 - User authentication and multi-user support
 - Cloud synchronization (local storage only in MVP)
+- Cross-tab synchronization
 - Task filtering/search, categories, due dates
 - Notifications, mobile native apps, third-party API
 
@@ -347,15 +341,15 @@ const TodoSchema = z.object({
 
 ---
 
-### Cross-Tab Synchronization Architecture
+### Client-Side Storage Architecture
 
 **Decision 2.1: Client-Side Storage → IndexedDB Primary + localStorage Fallback**
 
 **Rationale:**
-- Per PRD requirements (FR9-FR13)
-- IndexedDB provides: large capacity, queryable, survives crashes, cross-tab observable
+- Per PRD requirements (FR9-FR12)
+- IndexedDB provides: large capacity, queryable, survives crashes
 - localStorage fallback for browsers with IndexedDB limitations
-- Ensures zero data loss (NFR7-NFR13)
+- Ensures zero data loss (NFR6-NFR10)
 
 **Storage Schema:**
 ```typescript
@@ -363,104 +357,10 @@ const TodoSchema = z.object({
 {
   keyPath: 'id',
   todos: [
-    { id: string, title: string, completed: boolean, createdAt: number, _version: number }
+    { id: string, title: string, completed: boolean, createdAt: number }
   ]
 }
 ```
-
-**Sync Metadata:**
-- `_version`: Timestamp for conflict resolution (milliseconds since epoch)
-- `_synced`: Timestamp of last sync with other tabs
-- `_pendingOps`: Array of operations awaiting sync confirmation
-
----
-
-**Decision 2.2: Cross-Tab Messaging → Broadcast Channel API + localStorage Fallback**
-
-**Rationale:**
-- **Primary (Broadcast Channel API):**
-  - Native browser API, sub-10ms latency
-  - Meets <1s sync requirement (FR14-FR18) easily
-  - Modern browsers (Chrome, Firefox, Safari, Edge latest 2 versions)
-  - Works across windows and tabs, even background tabs
-  
-- **Fallback (localStorage storage event):**
-  - Universal browser support
-  - ~50-100ms latency (still meets <1s requirement)
-  - Triggered when any tab modifies localStorage
-  - Ensures sync even if Broadcast Channel unsupported
-
-**Message Protocol:**
-```typescript
-type SyncMessage = {
-  type: 'todo-created' | 'todo-updated' | 'todo-deleted' | 'sync-request';
-  payload: Todo | { id: string };
-  timestamp: number;
-  source: string; // Tab identifier
-};
-```
-
-**Degradation Path:**
-1. Try Broadcast Channel API first
-2. Fallback to SharedWorker if Broadcast Channel fails (optional optimization Phase 2)
-3. Fallback to localStorage storage events (universal)
-
----
-
-**Decision 2.3: Conflict Resolution → Timestamp-Based Last-Write-Wins**
-
-**Rationale:**
-- **Deterministic:** No arbitrary choices, reproducible on all tabs
-- **Simple:** Easy to understand and implement
-- **Suitable for todos:** Losing occasional simultaneous edit acceptable for MVP
-- **Well-documented:** Can explain approach clearly (portfolio value)
-
-**Algorithm:**
-```
-When sync conflict detected (same todo modified in multiple tabs):
-  Compare _version timestamps
-  Keep version with highest timestamp
-  Discard older version
-  Emit update to UI
-```
-
-**Example Resolution:**
-```
-Tab A: "Buy milk" → completed=true @ timestamp=1708700400000
-Tab B: "Buy milk" → title="Buy milk (organic)" @ timestamp=1708700398000
-
-Result: Tab A's completion wins (newer timestamp)
-        Tab B's title change is discarded
-```
-
-**User Impact:** 
-- Rare edge case (requires simultaneous modification within 100ms)
-- Clear behavior: latest change always wins
-- Can add UI feedback later (Phase 2): "Another tab updated this todo"
-
----
-
-**Decision 2.4: Sync Status Visibility → Color-Coded Badge + Text**
-
-**Rationale:**
-- **Accessibility:** Not color-only (meets WCAG AA requirement)
-- **Professional:** Subtle indicator, doesn't dominate UI
-- **Informative:** Shows users sync state
-- **Matches CX:** Aligns with "instant feedback" from user journey
-
-**Implementation:**
-```
-✓ Synced     (green checkmark, visible 3 seconds then fades)
-⟳ Syncing    (blue rotating indicator, appears during sync)
-⚠ Error      (red warning, appears if sync fails)
-```
-
-**Placement:** Subtle indicator near the input field or in status bar
-
-**Persistence:** 
-- "Synced" state visible for 3 seconds then fades
-- "Syncing" shows during actual sync operation
-- "Error" persists until user retries
 
 ---
 
@@ -471,23 +371,18 @@ Result: Tab A's completion wins (newer timestamp)
 2. **Set up SQLite database schema** (Epic 1, Story 2)
 3. **Create Zod validation schemas** (Epic 1, Story 3)
 4. **Build API routes** (Epic 2)
-5. **Implement IndexedDB client storage** (Epic 3, Story 1)
-6. **Implement Broadcast Channel sync** (Epic 3, Story 2)
-7. **Add conflict resolution logic** (Epic 3, Story 3)
-8. **Add sync status UI** (Epic 4)
+5. **Implement IndexedDB client storage** (Epic 2, Story 3)
+6. **Add UI polish and accessibility** (Epic 3)
 
 **Cross-Component Dependencies:**
 - Prisma schema drives TypeScript types throughout app
 - Zod schemas reused in API validation + frontend form validation
 - IndexedDB schema mirrors Prisma Todo model
-- Broadcast Channel messages carry Zod-validated Todo objects
-- Sync status indicator depends on Broadcast Channel message flow
 
 **Technology Versions Locked:**
 - SQLite 3.x (bundled)
 - Prisma 5.x
 - Zod 3.x
-- Broadcast Channel API (native, no package)
 - localStorage (native, no package)
 
 ---
@@ -532,7 +427,7 @@ model Todo {
 - **Variables:** camelCase (`todoId`, `isLoading`, `syncStatus`)
 - **Directories:** kebab-case (`components/`, `api/`, `lib/`, `hooks/`)
 - **Interfaces/Types:** PascalCase (`TodoResponse`, `SyncMessage`, `ValidationError`)
-- **Enums:** PascalCase (`SyncStatus`, `ErrorCode`)
+- **Enums:** PascalCase (`ErrorCode`)
 
 **Example:**
 ```typescript
@@ -570,23 +465,18 @@ src/
       TodoItem.tsx              # Single todo display
       TodoList.tsx              # List of todos
       TodoInput.tsx             # Input field
-    shared/
-      SyncIndicator.tsx         # Sync status display
       
   hooks/                        # Custom React hooks
     useTodos.ts                 # Hook for todo management
-    useSyncStatus.ts            # Hook for sync state
     
   lib/                          # Utilities and helpers
     db.ts                       # Prisma client initialization
     validation.ts               # Zod schemas
-    sync.ts                     # Cross-tab sync logic
     storage.ts                  # IndexedDB helpers
     
   types/                        # TypeScript definitions
     todo.ts                     # Todo type definitions
     api.ts                      # API types
-    sync.ts                     # Sync types
     
   styles/
     globals.css                 # Global styles
@@ -632,7 +522,7 @@ tests/
 {
   success: false,
   error: {
-    code: "VALIDATION_ERROR" | "NOT_FOUND" | "SERVER_ERROR" | "SYNC_ERROR",
+    code: "VALIDATION_ERROR" | "NOT_FOUND" | "SERVER_ERROR",
     message: "User-friendly error message",
     details?: { field?: string }  // For validation errors
   }
@@ -725,26 +615,6 @@ type SyncEvent =
 // Pattern: resource:action (lowercase, colon-separated)
 ```
 
-**Sync Status Representation:**
-```typescript
-type SyncStatus = 'idle' | 'syncing' | 'synced' | 'error';
-
-// Always lowercase string values
-// Never mix tenses (synced vs syncing)
-const [syncStatus, setSyncStatus] = useState<SyncStatus>('idle');
-```
-
-**Sync Message Flow:**
-```
-Tab A (user action) 
-  → IndexedDB update 
-  → Broadcast Channel: 'todo:created' 
-  → Tab B receives message 
-  → Tab B updates IndexedDB 
-  → Tab B UI rerenders 
-  → Both tabs show synced status
-```
-
 ---
 
 ### Error Handling
@@ -755,7 +625,6 @@ type ErrorCode =
   | 'VALIDATION_ERROR'    // Invalid input data
   | 'NOT_FOUND'           // Resource doesn't exist
   | 'SERVER_ERROR'        // Unexpected server error
-  | 'SYNC_ERROR'          // Cross-tab sync failed
   | 'STORAGE_ERROR'       // IndexedDB/localStorage failed
   | 'NETWORK_ERROR';      // Network request failed
 ```

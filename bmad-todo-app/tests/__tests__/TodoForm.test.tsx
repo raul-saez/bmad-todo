@@ -48,6 +48,29 @@ describe('TodoForm', () => {
     expect(input.value).toBe('')
   })
 
+  it('clears input on escape key', async () => {
+    const user = userEvent.setup()
+    render(<TodoForm onSubmit={mockOnSubmit} />)
+
+    const input = screen.getByPlaceholderText(/enter a new todo/i)
+    await user.type(input, 'Escape todo')
+    expect(input).toHaveValue('Escape todo')
+
+    await user.keyboard('{Escape}')
+    expect(input).toHaveValue('')
+  })
+
+  it('returns focus to input after submission', async () => {
+    const user = userEvent.setup()
+    render(<TodoForm onSubmit={mockOnSubmit} />)
+
+    const input = screen.getByPlaceholderText(/enter a new todo/i)
+    await user.type(input, 'Focus todo')
+    await user.click(screen.getByRole('button', { name: /add/i }))
+
+    expect(input).toHaveFocus()
+  })
+
   it('shows error for empty input', async () => {
     const user = userEvent.setup()
     render(<TodoForm onSubmit={mockOnSubmit} />)

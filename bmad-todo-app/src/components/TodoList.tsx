@@ -21,7 +21,11 @@ export const TodoList: React.FC<TodoListProps> = ({
 }) => {
   if (error) {
     return (
-      <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
+      <div
+        role="alert"
+        aria-live="assertive"
+        className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-800"
+      >
         <p className="font-medium">Error loading todos</p>
         <p className="text-sm mt-1">{error}</p>
       </div>
@@ -30,7 +34,11 @@ export const TodoList: React.FC<TodoListProps> = ({
 
   if (isLoading) {
     return (
-      <div className="p-4 text-center text-gray-500">
+      <div
+        role="status"
+        aria-live="polite"
+        className="p-4 text-center text-gray-500"
+      >
         <p>Loading todos...</p>
       </div>
     )
@@ -38,7 +46,11 @@ export const TodoList: React.FC<TodoListProps> = ({
 
   if (todos.length === 0) {
     return (
-      <div className="p-4 text-center text-gray-500">
+      <div
+        role="status"
+        aria-live="polite"
+        className="p-4 text-center text-gray-500"
+      >
         <p>No todos yet. Add one to get started!</p>
       </div>
     )
@@ -49,7 +61,11 @@ export const TodoList: React.FC<TodoListProps> = ({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-        <p className="text-sm text-gray-600">
+        <p
+          className="text-sm text-gray-600"
+          aria-live="polite"
+          aria-atomic="true"
+        >
           {completedCount} of {todos.length} completed
         </p>
         {completedCount > 0 && (

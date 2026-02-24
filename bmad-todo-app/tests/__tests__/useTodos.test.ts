@@ -1,12 +1,23 @@
 import { renderHook, act, waitFor } from '@testing-library/react'
 import { useTodos } from '@/hooks/useTodos'
+import * as storage from '@/services/storage/storage'
 
 // Mock fetch
 global.fetch = jest.fn()
 
+jest.mock('@/services/storage/storage')
+
+const mockStorage = storage as jest.Mocked<typeof storage>
+
 describe('useTodos', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    mockStorage.initStorage.mockResolvedValue('indexedDB')
+    mockStorage.getAllTodos.mockResolvedValue([])
+    mockStorage.saveTodo.mockResolvedValue({} as any)
+    mockStorage.updateTodo.mockResolvedValue({} as any)
+    mockStorage.deleteTodo.mockResolvedValue(undefined)
+    mockStorage.clearAll.mockResolvedValue(undefined)
   })
 
   it('initializes with empty todos', async () => {

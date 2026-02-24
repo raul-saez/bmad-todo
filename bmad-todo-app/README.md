@@ -9,7 +9,7 @@ A modern, fully-tested todo application built with Next.js, TypeScript, Tailwind
 | Criterion | Target | Status |
 |-----------|--------|--------|
 | CRUD Operations | 100% | ✅ Complete |
-| Test Coverage | 70%+ | ✅ 75%+ (52 tests) |
+| Test Coverage | 70%+ | ✅ 89%+ (131 tests) |
 | E2E Tests | 5+ tests | ✅ 8 Playwright tests |
 | Docker Deploy | Working | ✅ docker-compose ready |
 | Accessibility | Zero critical violations | ✅ WCAG 2.1 compliant |
@@ -72,7 +72,7 @@ docker-compose run --rm app npm test
 - **Responsive Design**: Mobile-first with Tailwind CSS
 - **Accessibility**: WCAG 2.1 Level AA compliant
 - **Type Safety**: TypeScript strict mode throughout
-- **Comprehensive Tests**: 52 passing tests (Jest + Playwright)
+- **Comprehensive Tests**: 131 passing tests (Jest + Playwright)
 - **CI/CD Ready**: GitHub Actions workflow configured
 - **Docker Support**: Production & development containers
 
@@ -93,7 +93,7 @@ docker-compose run --rm app npm test
 
 ```
 Frontend Layer
-├── Next.js 15 (React framework)
+├── Next.js 16 (React framework)
 ├── TypeScript 5 (Type safety)
 ├── Tailwind CSS 4 (Styling)
 └── React Testing Library (Component tests)
@@ -112,7 +112,7 @@ Testing Layer
 ├── Jest 30 (Unit tests)
 ├── Playwright (E2E tests)
 ├── jest-axe (Accessibility)
-└── 52 Passing Tests
+└── 131 Passing Tests
 
 DevOps Layer
 ├── Docker (Containerization)
@@ -151,7 +151,7 @@ bmad-todo-app/
 │   ├── dev.db                 # Development database
 │   └── migrations/            # Schema versions
 ├── tests/
-│   ├── __tests__/             # Unit tests (52 tests)
+│   ├── __tests__/             # Unit tests (131 tests)
 │   │   ├── TodoItem.test.tsx
 │   │   ├── TodoForm.test.tsx
 │   │   ├── TodoList.test.tsx
@@ -186,7 +186,7 @@ bmad-todo-app/
 
 ## 📊 Testing Coverage
 
-### Unit Tests (52 passing)
+### Tests (131 passing)
 ```
 ✅ Component Tests
    - TodoItem: 7 tests (100% coverage)
@@ -199,9 +199,18 @@ bmad-todo-app/
 
 ✅ Database Tests
    - Prisma operations: 19 tests (100% coverage)
+
+✅ API Route Tests
+   - /api/todos and /api/todos/[id]: 9 tests
+
+✅ App/Page Tests
+   - Home page behavior: 2 tests
+
+✅ Hook Barrel Tests
+   - Export coverage: 1 test
 ```
 
-### E2E Tests (8 passing - Playwright)
+### E2E Tests (8 tests - Playwright)
 ```
 ✅ Display app
 ✅ Create todo
@@ -388,7 +397,7 @@ docker-compose up --build
 ```
 
 ### Production Checklist
-- [ ] `npm test` passes (all 52 tests)
+- [ ] `npm test` passes (all 131 tests)
 - [ ] `npm run build` succeeds
 - [ ] `npm run test:e2e` passes (all 8 E2E tests)
 - [ ] No TypeScript errors (`npx tsc --noEmit`)
@@ -431,7 +440,7 @@ This project was designed and implemented using the **BMAD (Business Model Agile
 - Review AI-generated code, don't trust blindly
 
 #### 2. **Test-Driven Development + AI**
-- AI generated 52 passing tests covering all components
+- AI generated 131 passing tests covering components, hooks, routes, storage, integration, and sync
 - Tests became the specification for implementation
 - Refactoring became safe and fast
 
@@ -594,7 +603,7 @@ docker-compose up
 ### Code Quality
 - TypeScript: Strict mode, 0 errors
 - ESLint: Clean, 0 warnings
-- Test coverage: 75%+ (52 tests)
+- Test coverage: 89%+ (131 tests)
 - Accessibility: WCAG 2.1 Level AA
 
 ### Database
@@ -629,7 +638,7 @@ MIT License - See LICENSE file for details
 ### Phase 2 Complete (Current)
 - ✅ CRUD operations
 - ✅ Database integration
-- ✅ 52 passing tests
+- ✅ 131 passing tests
 - ✅ E2E tests working
 - ✅ Accessibility compliant
 - ✅ Docker ready

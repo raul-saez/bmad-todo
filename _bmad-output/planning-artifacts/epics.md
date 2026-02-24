@@ -8,8 +8,8 @@ date: '2026-02-24'
 completedAt: '2026-02-24'
 status: 'complete'
 epicsApproved: true
-epicCount: 5
-storyCount: 41
+epicCount: 4
+storyCount: 33
 allRequirementsCovered: true
 testStrategyIncluded: true
 ---
@@ -24,7 +24,7 @@ This document provides the complete epic and story breakdown for bmad-todo, deco
 
 ## Requirements Inventory
 
-### Functional Requirements (47 Total)
+### Functional Requirements (40 Total)
 
 **Todo Management (FRs 1-8):**
 - FR1: Users can create a new todo with a text description
@@ -36,110 +36,92 @@ This document provides the complete epic and story breakdown for bmad-todo, deco
 - FR7: The system stores each todo's creation timestamp
 - FR8: The system maintains completion status for each todo
 
-**Data Persistence (FRs 9-13):**
+**Data Persistence (FRs 9-12):**
 - FR9: The system persists all todos to local storage (IndexedDB primary, localStorage fallback)
 - FR10: The system recovers todo data after browser crashes or forced closes
 - FR11: The system recovers todo data across browser sessions (closed and reopened)
 - FR12: The system prevents data loss when network connectivity is interrupted
-- FR13: The system provides visual indication of sync status to the user
 
-**Cross-Tab Synchronization (FRs 14-18):**
-- FR14: When a user creates a todo in one tab, all other open tabs reflect the change instantly
-- FR15: When a user completes a todo in one tab, all other open tabs reflect the change instantly
-- FR16: When a user deletes a todo in one tab, all other open tabs reflect the change instantly
-- FR17: The system handles edge cases when the same todo is modified in multiple tabs simultaneously
-- FR18: The system notifies users when sync between tabs has completed
+**User Interface (FRs 13-19):**
+- FR13: The application provides a single input field for entering new todos
+- FR14: The application displays completed todos visually distinct from active todos (not by color alone)
+- FR15: The application displays an empty state when no todos exist
+- FR16: The application displays a loading state during data operations
+- FR17: The application displays error states when operations fail
+- FR18: The application provides clear error messages explaining what went wrong
+- FR19: The application provides a recovery path for failed operations
 
-**User Interface (FRs 19-25):**
-- FR19: The application provides a single input field for entering new todos
-- FR20: The application displays completed todos visually distinct from active todos (not by color alone)
-- FR21: The application displays an empty state when no todos exist
-- FR22: The application displays a loading state during data operations
-- FR23: The application displays error states when operations fail
-- FR24: The application provides clear error messages explaining what went wrong
-- FR25: The application provides a recovery path for failed operations
+**Accessibility - WCAG 2.1 Level AA (FRs 20-28):**
+- FR20: All interactive elements are keyboard accessible
+- FR21: Keyboard tab order follows logical flow through the interface
+- FR22: Users can activate all functions using keyboard only (no mouse required)
+- FR23: The application announces dynamic content changes to screen readers
+- FR24: Form labels are associated with their input fields for screen readers
+- FR25: Error messages are linked to the fields they describe
+- FR26: Visual information is not conveyed by color alone
+- FR27: Text and background have sufficient contrast ratio (4.5:1 minimum)
+- FR28: Interface elements have sufficient size for easy interaction
 
-**Accessibility - WCAG 2.1 Level AA (FRs 26-34):**
-- FR26: All interactive elements are keyboard accessible
-- FR27: Keyboard tab order follows logical flow through the interface
-- FR28: Users can activate all functions using keyboard only (no mouse required)
-- FR29: The application announces dynamic content changes to screen readers
-- FR30: Form labels are associated with their input fields for screen readers
-- FR31: Error messages are linked to the fields they describe
-- FR32: Visual information is not conveyed by color alone
-- FR33: Text and background have sufficient contrast ratio (4.5:1 minimum)
-- FR34: Interface elements have sufficient size for easy interaction
+**Cross-Device Support (FRs 29-34):**
+- FR29: The application works on desktop browsers (1920px+ width)
+- FR30: The application works on tablet browsers (768px-1024px width)
+- FR31: The application works on mobile browsers (320px-480px width)
+- FR32: The application adapts layout responsively to all screen sizes
+- FR33: Touch interactions work correctly on mobile and tablet devices
+- FR34: The application works on all target browsers (Chrome, Firefox, Safari, Edge - latest 2 versions)
 
-**Cross-Device Support (FRs 35-39):**
-- FR35: The application works on desktop browsers (1920px+ width)
-- FR36: The application works on tablet browsers (768px-1024px width)
-- FR37: The application works on mobile browsers (320px-480px width)
-- FR38: The application adapts layout responsively to all screen sizes
-- FR39: Touch interactions work correctly on mobile and tablet devices
+**Performance (FRs 35-37):**
+- FR35: The system responds to user actions within 100ms (perceived)
+- FR36: Creating a todo appears instant to the user
+- FR37: Completing/deleting a todo appears instant to the user
 
-**Performance (FRs 41-44):**
-- FR41: The system responds to user actions within 100ms (perceived)
-- FR42: Creating a todo appears instant to the user
-- FR43: Completing/deleting a todo appears instant to the user
-- FR44: Cross-tab sync propagates changes within 1 second
+**Search Engine Optimization (FRs 38-40):**
+- FR38: The application provides meaningful meta tags for social sharing
+- FR39: The application provides meaningful page title and description
+- FR40: The application can be discovered by search engines
 
-**Search Engine Optimization (FRs 45-47):**
-- FR45: The application provides meaningful meta tags for social sharing
-- FR46: The application provides meaningful page title and description
-- FR47: The application can be discovered by search engines
+### Non-Functional Requirements (29 Total)
 
-### Non-Functional Requirements (37 Total)
-
-**Performance (NFRs 1-6):**
+**Performance (NFRs 1-5):**
 - NFR1: All user-triggered actions must appear to complete within 100ms
 - NFR2: Page load time must not exceed 2 seconds on 4G networks
-- NFR3: Cross-tab sync propagation must not exceed 1 second
-- NFR4: UI must remain responsive during all operations
-- NFR5: Memory usage must remain constant regardless of todo count (up to 10,000 items)
-- NFR6: IndexedDB queries must complete within 50ms
+- NFR3: UI must remain responsive during all operations
+- NFR4: Memory usage must remain constant regardless of todo count (up to 10,000 items)
+- NFR5: IndexedDB queries must complete within 50ms
 
-**Reliability & Data Integrity (NFRs 7-13):**
-- NFR7: Zero data loss across browser crashes or forced closes
-- NFR8: Zero data loss when browser is closed unexpectedly
-- NFR9: Todo state must be recoverable from IndexedDB or localStorage fallback
-- NFR10: Concurrent tab updates must not result in data corruption or race conditions
-- NFR11: Failed sync operations must be retried automatically
-- NFR12: User must be able to recover from a corrupted storage state
-- NFR13: Backup mechanism (localStorage) must remain consistent with primary (IndexedDB)
+**Reliability & Data Integrity (NFRs 6-10):**
+- NFR6: Zero data loss across browser crashes or forced closes
+- NFR7: Zero data loss when browser is closed unexpectedly
+- NFR8: Todo state must be recoverable from IndexedDB or localStorage fallback
+- NFR9: User must be able to recover from a corrupted storage state
+- NFR10: Backup mechanism (localStorage) must remain consistent with primary (IndexedDB)
 
-**Concurrency & Synchronization (NFRs 14-18):**
-- NFR14: Updates in one tab must be visible in other tabs within 1 second
-- NFR15: Simultaneous updates to the same todo from multiple tabs must resolve consistently
-- NFR16: Sync conflicts must be resolved deterministically (not arbitrarily)
-- NFR17: Last-write-wins or user-defined strategy must be consistently applied
-- NFR18: Cross-tab communication must degrade gracefully if Broadcast Channel API unavailable
+**Browser Compatibility (NFRs 11-14):**
+- NFR11: IndexedDB must work across all target browsers (Chrome, Firefox, Safari, Edge)
+- NFR12: Fallback to localStorage must work when IndexedDB is unavailable
+- NFR13: Service Worker must work across all target browsers where available
+- NFR14: Graceful degradation for browsers without modern APIs
 
-**Browser Compatibility (NFRs 19-22):**
-- NFR19: IndexedDB must work across all target browsers (Chrome, Firefox, Safari, Edge)
-- NFR20: Fallback to localStorage must work when IndexedDB is unavailable
-- NFR21: Service Worker must work across all target browsers where available
-- NFR22: Graceful degradation for browsers without modern APIs
+**Code Quality & Maintainability (NFRs 15-21):**
+- NFR15: Code must follow clean code principles
+- NFR16: Code must have >80% unit test coverage
+- NFR17: All complex logic must have integration tests
+- NFR18: User journeys must have end-to-end test coverage
+- NFR19: Code must be documented with explanations of non-obvious decisions
+- NFR20: Architecture must be clearly documented and easily understood by other developers
+- NFR21: No technical debt items should block deployment to production
 
-**Code Quality & Maintainability (NFRs 23-29):**
-- NFR23: Code must follow clean code principles
-- NFR24: Code must have >80% unit test coverage
-- NFR25: All complex logic must have integration tests
-- NFR26: User journeys must have end-to-end test coverage
-- NFR27: Code must be documented with explanations of non-obvious decisions
-- NFR28: Architecture must be clearly documented and easily understood by other developers
-- NFR29: No technical debt items should block deployment to production
+**Deployment & Operations (NFRs 22-26):**
+- NFR22: Application must be deployable with a single command
+- NFR23: Deployment process must be repeatable and documented
+- NFR24: Rollback must be possible to previous versions
+- NFR25: Application must not require manual configuration per environment
+- NFR26: Application must include comprehensive README for setup and architecture
 
-**Deployment & Operations (NFRs 30-34):**
-- NFR30: Application must be deployable with a single command
-- NFR31: Deployment process must be repeatable and documented
-- NFR32: Rollback must be possible to previous versions
-- NFR33: Application must not require manual configuration per environment
-- NFR34: Application must include comprehensive README for setup and architecture
-
-**Monitoring & Observability (NFRs 35-37):**
-- NFR35: Application must log errors with sufficient detail for debugging
-- NFR36: User actions must be traceable for troubleshooting
-- NFR37: Performance metrics must be measurable
+**Monitoring & Observability (NFRs 27-29):**
+- NFR27: Application must log errors with sufficient detail for debugging
+- NFR28: User actions must be traceable for troubleshooting
+- NFR29: Performance metrics must be measurable
 
 ### Additional Requirements
 
@@ -151,8 +133,6 @@ This document provides the complete epic and story breakdown for bmad-todo, deco
 - Database: SQLite 3.x with Prisma 5.x ORM
 - Validation: Zod 3.x for type-safe validation
 - Client Storage: IndexedDB (primary) + localStorage (fallback)
-- Cross-Tab Sync: Broadcast Channel API (primary) + localStorage polling (fallback)
-- Conflict Resolution: Timestamp-based Last-Write-Wins strategy
 
 **Project Structure:**
 - 60+ predefined files and directories from architecture
@@ -166,13 +146,12 @@ This document provides the complete epic and story breakdown for bmad-todo, deco
 | Category | FRs | Coverage | Key Stories |
 |----------|-----|----------|-------------|
 | Todo CRUD | 1-8 | Core functionality | Epic 1: Stories 1-4 |
-| Data Persistence | 9-13 | Storage & recovery | Epic 2: Stories 1-3 |
-| Cross-Tab Sync | 14-18 | Multi-tab coordination | Epic 3: Stories 1-3 |
-| UI/UX | 19-25 | User experience | Epic 1, 4: Multiple stories |
-| Accessibility | 26-34 | WCAG AA compliance | Epic 4: Stories 1-3 |
-| Responsive Design | 35-39 | Multi-device support | Epic 4: Story 4 |
-| Performance | 41-44 | Speed targets | All epics (cross-cutting) |
-| SEO | 45-47 | Search discoverability | Epic 5: Story 1 |
+| Data Persistence | 9-12 | Storage & recovery | Epic 2: Stories 1-3 |
+| UI/UX | 13-19 | User experience | Epic 1, 3: Multiple stories |
+| Accessibility | 20-28 | WCAG AA compliance | Epic 3: Stories 1-3 |
+| Responsive Design | 29-34 | Multi-device support | Epic 3: Story 4 |
+| Performance | 35-37 | Speed targets | All epics (cross-cutting) |
+| SEO | 38-40 | Search discoverability | Epic 4: Story 1 |
 
 ---
 
@@ -180,9 +159,8 @@ This document provides the complete epic and story breakdown for bmad-todo, deco
 
 1. **Epic 1: Project Initialization & Core CRUD** - Set up Next.js project and implement basic todo creation/reading
 2. **Epic 2: Data Persistence & Recovery** - Implement IndexedDB storage with localStorage fallback and crash recovery
-3. **Epic 3: Cross-Tab Synchronization** - Implement Broadcast Channel API for multi-tab coordination
-4. **Epic 4: UI Polish, Accessibility & Responsiveness** - Complete UI components with WCAG AA compliance and mobile support
-5. **Epic 5: SEO & Documentation** - Implement SEO tags and comprehensive project documentation
+3. **Epic 3: UI Polish, Accessibility & Responsiveness** - Complete UI components with WCAG AA compliance and mobile support
+4. **Epic 4: SEO & Documentation** - Implement SEO tags and comprehensive project documentation
 
 ---
 
@@ -1313,327 +1291,7 @@ So that I'm confident data will never be lost.
 
 ---
 
-## Epic 3: Cross-Tab Synchronization
-
-**Epic Goal:** Implement real-time synchronization of todos across multiple browser tabs using Broadcast Channel API with localStorage fallback, ensuring consistent state and handling edge cases.
-
-**Success Criteria:**
-- ✅ Broadcast Channel API implementation for instant sync
-- ✅ localStorage polling fallback for unsupported browsers
-- ✅ Conflict resolution using Last-Write-Wins strategy
-- ✅ Edge case handling (simultaneous updates, network issues)
-- ✅ Sync status visibility to users
-- ✅ Unit and integration tests for all sync scenarios
-
-**Technical Foundation:**
-- Broadcast Channel service
-- Conflict resolver (Last-Write-Wins)
-- Sync queue for offline operations
-- Context provider for sync state
-
----
-
-### Story 3.1: Create Broadcast Channel Wrapper Service
-
-As a developer,
-I want a service wrapping Broadcast Channel API,
-So that components don't directly interact with low-level communication.
-
-**Acceptance Criteria:**
-
-**Given** I need cross-tab communication
-**When** I create `src/services/sync/broadcastSync.ts`
-**Then** The service exports functions: send, listen, close
-
-**Given** the service exists
-**When** I call `createChannel('bmad-todos')`
-**Then** A Broadcast Channel is created with the app name
-
-**Given** the channel is created
-**When** I call `send({resource: 'todo', action: 'created', data: {...}})`
-**Then** The message is broadcast to all other tabs
-
-**Given** a message is sent
-**When** another tab is listening
-**Then** The receiving tab's `listen()` callback is triggered with the message
-
-**Given** the channel is open
-**When** I call `close()`
-**Then** The channel is closed and no more messages are received
-
-**Given** the service exists
-**When** I detect browser doesn't support Broadcast Channel
-**Then** The service logs a warning that fallback will be used
-
-**Given** the service is created
-**When** I write unit tests
-**Then** Tests cover: channel creation, message sending/receiving, and channel closing
-
----
-
-### Story 3.2: Create localStorage Polling Fallback for Broadcast Channel
-
-As a developer,
-I want a fallback sync mechanism for browsers without Broadcast Channel API,
-So that the app works everywhere.
-
-**Acceptance Criteria:**
-
-**Given** Broadcast Channel is unavailable
-**When** I create `src/services/sync/localStorageSync.ts`
-**Then** The service uses localStorage watchers and polling
-
-**Given** the fallback exists
-**When** I call `send()` on a message
-**Then** The message is written to localStorage with timestamp
-
-**Given** a message is in localStorage
-**When** I call `listen()` to start polling
-**Then** The service polls localStorage every 100ms for new messages
-
-**Given** polling is active
-**When** another tab writes a message to localStorage
-**Then** The polling detects the new message and calls the callback
-
-**Given** the polling detects a message
-**When** it's from another tab
-**Then** The message is processed and removed from localStorage
-
-**Given** the polling detects a message
-**When** it's from the same tab
-**Then** The message is skipped to avoid self-broadcast
-
-**Given** the fallback is implemented
-**When** I write unit tests
-**Then** Tests cover: localStorage write, polling detection, message filtering, and cleanup
-
----
-
-### Story 3.3: Create Conflict Resolver Using Last-Write-Wins Strategy
-
-As a developer,
-I want a service that resolves conflicting updates using Last-Write-Wins,
-So that concurrent tab updates don't corrupt data.
-
-**Acceptance Criteria:**
-
-**Given** I have conflicting updates from two tabs
-**When** I create `src/services/sync/conflictResolver.ts`
-**Then** The service exports `resolveConflict(local, remote, conflict)`
-
-**Given** the resolver exists
-**When** Tab A and Tab B both update the same todo's title
-**Then** The resolver compares updatedAt timestamps
-
-**Given** timestamps are compared
-**When** Tab A's update has a newer timestamp
-**Then** Tab A's version is kept and Tab B's is discarded
-
-**Given** the timestamps are equal
-**When** timestamps tie
-**Then** The resolver uses tab ID as tiebreaker (deterministic)
-
-**Given** conflicts are detected
-**When** a conflict occurs
-**Then** The system logs the conflict, keeps the winning version, and notifies the user
-
-**Given** a user wants to preserve their changes after losing a conflict
-**When** a conflict resolution happens
-**Then** The system offers "Undo" to get the version that was discarded
-
-**Given** the resolver is implemented
-**When** I write unit tests
-**Then** Tests cover: timestamp comparison, tiebreaking, and undo scenarios
-
----
-
-### Story 3.4: Create Sync Message Event Format and Handler
-
-As a developer,
-I want a standardized format for sync messages,
-So that all tabs communicate consistently.
-
-**Acceptance Criteria:**
-
-**Given** I need to sync todo creation
-**When** Tab A creates a todo
-**Then** Tab A sends: `{resource: 'todo', action: 'created', data: {...}, timestamp: ISO8601, tabId: uuid}`
-
-**Given** Tab B receives the message
-**When** the message is processed
-**Then** Tab B's `syncQueue` receives: `{resource, action, data, timestamp, tabId}`
-
-**Given** a sync message is queued
-**When** I call `processSyncMessage(message)`
-**Then** The message is validated against schema: resource (string), action (string), data (object), timestamp (ISO8601), tabId (uuid)
-
-**Given** a message is invalid
-**When** validation fails
-**Then** The message is logged as error and discarded
-
-**Given** a message is valid
-**When** it describes a 'created' action
-**Then** The todo is merged into local state using conflict resolution
-
-**Given** a message describes 'updated' or 'deleted' actions
-**When** it's processed
-**Then** The corresponding operation is applied with conflict resolution
-
-**Given** the message handler is implemented
-**When** I write unit tests
-**Then** Tests cover: message validation, routing to correct action handlers, and conflict detection
-
----
-
-### Story 3.5: Create Sync Context Provider for Components
-
-As a developer,
-I want a context that provides sync state to all components,
-So that components can display sync status.
-
-**Acceptance Criteria:**
-
-**Given** I need to share sync state
-**When** I create `src/components/providers/SyncProvider.tsx`
-**Then** The provider wraps the app and exports `useSyncContext()` hook
-
-**Given** the provider is created
-**When** I use `const {syncStatus, lastSyncTime, syncError} = useSyncContext()`
-**Then** Components can access current sync state
-
-**Given** sync is in progress
-**When** a sync message is being processed
-**Then** `syncStatus` is "syncing"
-
-**Given** sync completes successfully
-**When** all messages are processed
-**Then** `syncStatus` is "synced" and `lastSyncTime` is updated
-
-**Given** a sync error occurs
-**When** message processing fails
-**Then** `syncStatus` is "error" and `syncError` contains the error details
-
-**Given** the provider is working
-**When** I write unit tests
-**Then** Tests cover: state updates, context provision, and hook usage
-
----
-
-### Story 3.6: Create SyncStatus Component for Visual Feedback
-
-As a user,
-I want to see the sync status of my data across tabs,
-So that I know when changes are synchronized.
-
-**Acceptance Criteria:**
-
-**Given** I open the app in two tabs
-**When** I create a todo in Tab A
-**Then** Tab A shows "Syncing..." while the change propagates
-
-**Given** Tab A is syncing
-**When** Tab B detects the new todo
-**Then** Tab B shows "Synced" with a checkmark
-
-**Given** both tabs are synced
-**When** I make another change
-**Then** The sync status updates to show the current state
-
-**Given** a sync error occurs
-**When** the Broadcast Channel fails
-**Then** The status shows "Error" in red and allows manual retry
-
-**Given** the error is showing
-**When** I click "Retry"
-**Then** The sync attempt is retried and status updates
-
-**Given** the component displays status
-**When** I look at the component
-**Then** The status badge is positioned subtly (top-right corner, small)
-
-**Given** the component exists
-**When** I write unit tests
-**Then** Tests cover: status display, icon colors, and retry functionality
-
----
-
-### Story 3.7: Implement Sync Queue for Offline Operations
-
-As a developer,
-I want a queue that buffers sync messages during network outages,
-So that operations aren't lost when offline.
-
-**Acceptance Criteria:**
-
-**Given** I have pending sync messages
-**When** I create `src/services/sync/syncQueue.ts`
-**Then** The service exports: enqueue, dequeue, flush, isPending
-
-**Given** the queue exists
-**When** a user creates a todo while Broadcast Channel is unavailable
-**Then** The operation is enqueued with timestamp
-
-**Given** an operation is queued
-**When** connectivity is restored
-**Then** All queued operations are flushed to other tabs
-
-**Given** operations are flushed
-**When** 5 operations are in the queue
-**Then** They are sent in order with timestamps preserved
-
-**Given** operations are in the queue
-**When** I call `isPending()`
-**Then** The function returns true if queue is not empty
-
-**Given** the queue is full
-**When** I add more than 100 operations
-**Then** The oldest operations are dropped and user is warned
-
-**Given** operations are queued
-**When** I write unit tests
-**Then** Tests cover: enqueue/dequeue, ordering, flush, and overflow handling
-
----
-
-### Story 3.8: Create Integration Tests for Cross-Tab Sync Scenarios
-
-As a developer,
-I want comprehensive tests for all cross-tab sync scenarios,
-So that I'm confident sync works reliably.
-
-**Acceptance Criteria:**
-
-**Given** I need to test sync scenarios
-**When** I create tests/integration/sync.integration.test.ts
-**Then** Tests simulate multiple tabs and verify sync behavior
-
-**Given** sync tests exist
-**When** I write a test for "Create in Tab A, Verify in Tab B"
-**Then** The test verifies: create todo in Tab A → broadcast → Tab B receives and updates
-
-**Given** basic sync is tested
-**When** I write a test for "Simultaneous Updates - Last-Write-Wins"
-**Then** The test simulates concurrent updates and verifies correct conflict resolution
-
-**Given** conflict resolution is tested
-**When** I write a test for "Offline Queue and Flush"
-**Then** The test verifies: queue operations → restore connectivity → flush all
-
-**Given** offline handling is tested
-**When** I write a test for "Broadcast Channel Fallback to localStorage"
-**Then** The test disables Broadcast Channel and verifies localStorage fallback works
-
-**Given** fallback is tested
-**When** I write a test for "Sync Status Updates"
-**Then** The test verifies: syncing → synced → error → retry states
-
-**Given** all sync tests are written
-**When** I run `npm test -- sync`
-**Then** All tests pass and cover critical sync scenarios
-
----
-
-## Epic 4: UI Polish, Accessibility & Responsive Design
+## Epic 3: UI Polish, Accessibility & Responsive Design
 
 **Epic Goal:** Create a polished, accessible, and responsive user interface that meets WCAG 2.1 Level AA standards and works seamlessly across all device sizes.
 
@@ -1655,7 +1313,7 @@ So that I'm confident sync works reliably.
 
 ---
 
-### Story 4.1: Implement Full Keyboard Navigation (WCAG 2.1 AA)
+### Story 3.1: Implement Full Keyboard Navigation (WCAG 2.1 AA)
 
 As a user,
 I want to use the entire app with only keyboard,
@@ -1701,7 +1359,7 @@ So that I can use it efficiently without a mouse.
 
 ---
 
-### Story 4.2: Implement Screen Reader Support with ARIA Labels
+### Story 3.2: Implement Screen Reader Support with ARIA Labels
 
 As a user with a screen reader,
 I want all content and interactions announced clearly,
@@ -1747,7 +1405,7 @@ So that I can navigate and use the app independently.
 
 ---
 
-### Story 4.3: Create Responsive Design for Desktop, Tablet, and Mobile
+### Story 3.3: Create Responsive Design for Desktop, Tablet, and Mobile
 
 As a user,
 I want the app to work beautifully on all screen sizes,
@@ -1793,7 +1451,7 @@ So that I can use it on any device.
 
 ---
 
-### Story 4.4: Implement Loading States
+### Story 3.4: Implement Loading States
 
 As a user,
 I want to see visual feedback while data is loading,
@@ -1835,7 +1493,7 @@ So that I know the app is working.
 
 ---
 
-### Story 4.5: Implement Error States with Clear Recovery
+### Story 3.5: Implement Error States with Clear Recovery
 
 As a user,
 I want to see clear error messages and know how to recover,
@@ -1881,7 +1539,7 @@ So that I can resolve issues quickly.
 
 ---
 
-### Story 4.6: Add Visual Polish and Microinteractions
+### Story 3.6: Add Visual Polish and Microinteractions
 
 As a user,
 I want the app to feel smooth and responsive,
@@ -1927,7 +1585,7 @@ So that interactions feel delightful.
 
 ---
 
-### Story 4.7: Create Error Boundary Component for Graceful Error Handling
+### Story 3.7: Create Error Boundary Component for Graceful Error Handling
 
 As a developer,
 I want an Error Boundary component to catch React errors,
@@ -1960,7 +1618,7 @@ So that the entire app doesn't crash from component errors.
 
 ---
 
-### Story 4.8: Create Accessibility Audit Checklist and Test Suite
+### Story 3.8: Create Accessibility Audit Checklist and Test Suite
 
 As a developer,
 I want comprehensive accessibility tests,
@@ -1998,7 +1656,7 @@ So that the app meets WCAG 2.1 Level AA standards.
 
 ---
 
-## Epic 5: SEO & Documentation
+## Epic 4: SEO & Documentation
 
 **Epic Goal:** Implement SEO metadata and create comprehensive documentation for setup, architecture, and deployment.
 
@@ -2019,7 +1677,7 @@ So that the app meets WCAG 2.1 Level AA standards.
 
 ---
 
-### Story 5.1: Configure SEO Meta Tags and Open Graph Metadata
+### Story 4.1: Configure SEO Meta Tags and Open Graph Metadata
 
 As a developer,
 I want proper SEO metadata and social sharing information,
@@ -2057,7 +1715,7 @@ So that the app is discoverable and shares well on social media.
 
 ---
 
-### Story 5.2: Add Structured Data (Schema.org) for Better Search Engine Understanding
+### Story 4.2: Add Structured Data (Schema.org) for Better Search Engine Understanding
 
 As a developer,
 I want to provide structured data to search engines,
@@ -2083,7 +1741,7 @@ So that the app is better understood and indexed.
 
 ---
 
-### Story 5.3: Create Comprehensive README with Setup and Architecture
+### Story 4.3: Create Comprehensive README with Setup and Architecture
 
 As a developer,
 I want a README that explains the project and how to set it up,
@@ -2113,7 +1771,7 @@ So that other developers can understand and contribute.
 
 ---
 
-### Story 5.4: Create API Documentation
+### Story 4.4: Create API Documentation
 
 As a developer or API consumer,
 I want clear documentation of all API endpoints,
@@ -2147,7 +1805,7 @@ So that I can integrate with the backend.
 
 ---
 
-### Story 5.5: Create Deployment Guide
+### Story 4.5: Create Deployment Guide
 
 As a developer,
 I want a guide to deploy the app to production,
@@ -2185,7 +1843,7 @@ So that I can ship bmad-todo to users.
 
 ---
 
-### Story 5.6: Create Architecture Documentation Reference
+### Story 4.6: Create Architecture Documentation Reference
 
 As a developer or future contributor,
 I want detailed architecture documentation,
@@ -2219,7 +1877,7 @@ So that I understand the design and can maintain the codebase.
 
 ---
 
-### Story 5.7: Set Up CI/CD Testing and Automated Quality Gates
+### Story 4.7: Set Up CI/CD Testing and Automated Quality Gates
 
 As a developer,
 I want automated testing and quality checks on every commit,

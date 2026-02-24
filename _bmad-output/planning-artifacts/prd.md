@@ -231,15 +231,8 @@ Testing must cover all supported browser combinations on both desktop and mobile
 
 ### State Management & Data Persistence
 
-**Cross-Tab Synchronization:**
-The application must maintain data consistency across multiple browser tabs and windows:
-- Use browser APIs (Broadcast Channel API, SharedWorkers, or IndexedDB watchers) to detect changes in one tab and sync to others
-- All tabs must reflect the same todo list state in real-time
-- Completed/uncompleted status must update instantly across tabs
-- No manual refresh required to see updates from another tab
-
 **Local Data Persistence:**
-- Primary storage: IndexedDB for reliable offline capability and cross-tab data sharing
+- Primary storage: IndexedDB for reliable offline capability
 - Fallback: localStorage for browsers with IndexedDB limitations
 - Service Worker integration for offline-first architecture
 
@@ -312,7 +305,6 @@ Since todos are user-specific and dynamic, SEO optimization focuses on making th
 
 **Required APIs:**
 - IndexedDB (or fallback to localStorage)
-- Broadcast Channel API or SharedWorker (cross-tab sync)
 - Service Worker (offline support, caching)
 - Fetch API (server communication)
 - Local Storage (lightweight data caching)
@@ -320,7 +312,6 @@ Since todos are user-specific and dynamic, SEO optimization focuses on making th
 **Progressive Enhancement:**
 - Application works with basic functionality even if some modern APIs are unavailable
 - Graceful degradation if IndexedDB fails (fallback to localStorage)
-- Fallback sync mechanism if Broadcast Channel API unavailable
 
 ### Testing & QA Scope
 
@@ -333,11 +324,6 @@ Since todos are user-specific and dynamic, SEO optimization focuses on making th
 - Automated testing (axe, Lighthouse)
 - Manual keyboard navigation testing
 - Screen reader testing (NVDA, JAWS, VoiceOver)
-
-**Cross-Tab Sync Testing:**
-- Open app in multiple tabs, verify sync
-- Test rapid updates across tabs
-- Test offline scenarios with sync recovery
 
 ## Project Scoping & Phased Development
 
@@ -364,7 +350,6 @@ The initial release balances user experience excellence with code quality demons
 - View all active todos in a single list
 - View completed todos (history)
 - Persist data across browser sessions and crashes
-- Cross-tab synchronization (updates visible instantly in all open tabs)
 - Respond to all user actions in < 100ms
 - Work equally well on desktop and mobile browsers
 - Support keyboard navigation for all functions
@@ -440,7 +425,6 @@ The initial release balances user experience excellence with code quality demons
 
 | Risk | Mitigation |
 |------|-----------|
-| Cross-tab sync complexity | Prototype Broadcast Channel API early; fallback to SharedWorker if needed |
 | IndexedDB compatibility | Implement localStorage fallback; test thoroughly in target browsers |
 | Performance targets (< 100ms) | Profile early and often; optimize hot paths first |
 | Accessibility implementation | Use WCAG checklist; involve accessibility testing from sprint 1 |
@@ -466,7 +450,6 @@ The initial release balances user experience excellence with code quality demons
 The MVP is complete when:
 - ✅ All core CRUD operations work flawlessly
 - ✅ Data persists across sessions and survives browser crashes
-- ✅ Cross-tab sync works reliably
 - ✅ All interactions respond in < 100ms
 - ✅ New user completes first todo in < 30 seconds
 - ✅ Code is clean, well-documented, and reviewable
@@ -496,59 +479,49 @@ The MVP is complete when:
 - **FR10:** The system recovers todo data after browser crashes or forced closes
 - **FR11:** The system recovers todo data across browser sessions (closed and reopened)
 - **FR12:** The system prevents data loss when network connectivity is interrupted
-- **FR13:** The system provides visual indication of sync status to the user
-
-### Cross-Tab Synchronization
-
-- **FR14:** When a user creates a todo in one tab, all other open tabs reflect the change instantly
-- **FR15:** When a user completes a todo in one tab, all other open tabs reflect the change instantly
-- **FR16:** When a user deletes a todo in one tab, all other open tabs reflect the change instantly
-- **FR17:** The system handles edge cases when the same todo is modified in multiple tabs simultaneously
-- **FR18:** The system notifies users when sync between tabs has completed
 
 ### User Interface
 
-- **FR19:** The application provides a single input field for entering new todos
-- **FR20:** The application displays completed todos visually distinct from active todos (not by color alone)
-- **FR21:** The application displays an empty state when no todos exist
-- **FR22:** The application displays a loading state during data operations
-- **FR23:** The application displays error states when operations fail
-- **FR24:** The application provides clear error messages explaining what went wrong
-- **FR25:** The application provides a recovery path for failed operations
+- **FR13:** The application provides a single input field for entering new todos
+- **FR14:** The application displays completed todos visually distinct from active todos (not by color alone)
+- **FR15:** The application displays an empty state when no todos exist
+- **FR16:** The application displays a loading state during data operations
+- **FR17:** The application displays error states when operations fail
+- **FR18:** The application provides clear error messages explaining what went wrong
+- **FR19:** The application provides a recovery path for failed operations
 
 ### Accessibility (WCAG 2.1 Level AA)
 
-- **FR26:** All interactive elements are keyboard accessible
-- **FR27:** Keyboard tab order follows logical flow through the interface
-- **FR28:** Users can activate all functions using keyboard only (no mouse required)
-- **FR29:** The application announces dynamic content changes to screen readers
-- **FR30:** Form labels are associated with their input fields for screen readers
-- **FR31:** Error messages are linked to the fields they describe
-- **FR32:** Visual information is not conveyed by color alone
-- **FR33:** Text and background have sufficient contrast ratio (4.5:1 minimum)
-- **FR34:** Interface elements have sufficient size for easy interaction
+- **FR20:** All interactive elements are keyboard accessible
+- **FR21:** Keyboard tab order follows logical flow through the interface
+- **FR22:** Users can activate all functions using keyboard only (no mouse required)
+- **FR23:** The application announces dynamic content changes to screen readers
+- **FR24:** Form labels are associated with their input fields for screen readers
+- **FR25:** Error messages are linked to the fields they describe
+- **FR26:** Visual information is not conveyed by color alone
+- **FR27:** Text and background have sufficient contrast ratio (4.5:1 minimum)
+- **FR28:** Interface elements have sufficient size for easy interaction
 
 ### Cross-Device Support
 
-- **FR35:** The application works on desktop browsers (1920px+ width)
-- **FR36:** The application works on tablet browsers (768px-1024px width)
-- **FR37:** The application works on mobile browsers (320px-480px width)
-- **FR38:** The application adapts layout responsively to all screen sizes
-- **FR39:** Touch interactions work correctly on mobile and tablet devices
-- **FR40:** The application works on all target browsers (Chrome, Firefox, Safari, Edge - latest 2 versions)
+- **FR29:** The application works on desktop browsers (1920px+ width)
+- **FR30:** The application works on tablet browsers (768px-1024px width)
+- **FR31:** The application works on mobile browsers (320px-480px width)
+- **FR32:** The application adapts layout responsively to all screen sizes
+- **FR33:** Touch interactions work correctly on mobile and tablet devices
+- **FR34:** The application works on all target browsers (Chrome, Firefox, Safari, Edge - latest 2 versions)
 
 ### Performance
 
-- **FR41:** The system responds to user actions within 100ms (perceived)
-- **FR42:** Creating a todo appears instant to the user
-- **FR43:** Completing/deleting a todo appears instant to the user
-- **FR44:** Cross-tab sync propagates changes within 1 second
+- **FR35:** The system responds to user actions within 100ms (perceived)
+- **FR36:** Creating a todo appears instant to the user
+- **FR37:** Completing/deleting a todo appears instant to the user
 
 ### Search Engine Optimization
 
-- **FR45:** The application provides meaningful meta tags for social sharing
-- **FR46:** The application provides meaningful page title and description
-- **FR47:** The application can be discovered by search engines
+- **FR38:** The application provides meaningful meta tags for social sharing
+- **FR39:** The application provides meaningful page title and description
+- **FR40:** The application can be discovered by search engines
 
 ## Non-Functional Requirements
 
@@ -556,56 +529,45 @@ The MVP is complete when:
 
 - **NFR1:** All user-triggered actions (create, complete, delete) must appear to complete within 100ms
 - **NFR2:** Page load time must not exceed 2 seconds on 4G networks
-- **NFR3:** Cross-tab sync propagation must not exceed 1 second
-- **NFR4:** UI must remain responsive during all operations (no blocking, no janky animations)
-- **NFR5:** Memory usage must remain constant regardless of todo count (up to 10,000 items)
-- **NFR6:** IndexedDB queries must complete within 50ms
+- **NFR3:** UI must remain responsive during all operations (no blocking, no janky animations)
+- **NFR4:** Memory usage must remain constant regardless of todo count (up to 10,000 items)
+- **NFR5:** IndexedDB queries must complete within 50ms
 
 ### Reliability & Data Integrity
 
-- **NFR7:** Zero data loss across browser crashes or forced closes
-- **NFR8:** Zero data loss when browser is closed unexpectedly
-- **NFR9:** Todo state must be recoverable from IndexedDB or localStorage fallback
-- **NFR10:** Concurrent tab updates must not result in data corruption or race conditions
-- **NFR11:** Failed sync operations must be retried automatically
-- **NFR12:** User must be able to recover from a corrupted storage state
-- **NFR13:** Backup mechanism (localStorage) must remain consistent with primary (IndexedDB)
-
-### Concurrency & Synchronization
-
-- **NFR14:** Updates in one tab must be visible in other tabs within 1 second
-- **NFR15:** Simultaneous updates to the same todo from multiple tabs must resolve consistently
-- **NFR16:** Sync conflicts must be resolved deterministically (not arbitrarily)
-- **NFR17:** Last-write-wins or user-defined strategy must be consistently applied
-- **NFR18:** Cross-tab communication must degrade gracefully if Broadcast Channel API unavailable
+- **NFR6:** Zero data loss across browser crashes or forced closes
+- **NFR7:** Zero data loss when browser is closed unexpectedly
+- **NFR8:** Todo state must be recoverable from IndexedDB or localStorage fallback
+- **NFR9:** User must be able to recover from a corrupted storage state
+- **NFR10:** Backup mechanism (localStorage) must remain consistent with primary (IndexedDB)
 
 ### Browser Compatibility
 
-- **NFR19:** IndexedDB must work across all target browsers (Chrome, Firefox, Safari, Edge)
-- **NFR20:** Fallback to localStorage must work when IndexedDB is unavailable
-- **NFR21:** Service Worker must work across all target browsers where available
-- **NFR22:** Graceful degradation for browsers without modern APIs
+- **NFR11:** IndexedDB must work across all target browsers (Chrome, Firefox, Safari, Edge)
+- **NFR12:** Fallback to localStorage must work when IndexedDB is unavailable
+- **NFR13:** Service Worker must work across all target browsers where available
+- **NFR14:** Graceful degradation for browsers without modern APIs
 
 ### Code Quality & Maintainability
 
-- **NFR23:** Code must follow clean code principles (small functions, single responsibility, DRY)
-- **NFR24:** Code must have >80% unit test coverage
-- **NFR25:** All complex logic must have integration tests
-- **NFR26:** User journeys must have end-to-end test coverage
-- **NFR27:** Code must be documented with explanations of non-obvious decisions
-- **NFR28:** Architecture must be clearly documented and easily understood by other developers
-- **NFR29:** No technical debt items should block deployment to production
+- **NFR15:** Code must follow clean code principles (small functions, single responsibility, DRY)
+- **NFR16:** Code must have >80% unit test coverage
+- **NFR17:** All complex logic must have integration tests
+- **NFR18:** User journeys must have end-to-end test coverage
+- **NFR19:** Code must be documented with explanations of non-obvious decisions
+- **NFR20:** Architecture must be clearly documented and easily understood by other developers
+- **NFR21:** No technical debt items should block deployment to production
 
 ### Deployment & Operations
 
-- **NFR30:** Application must be deployable with a single command
-- **NFR31:** Deployment process must be repeatable and documented
-- **NFR32:** Rollback must be possible to previous versions
-- **NFR33:** Application must not require manual configuration per environment
-- **NFR34:** Application must include comprehensive README for setup and architecture
+- **NFR22:** Application must be deployable with a single command
+- **NFR23:** Deployment process must be repeatable and documented
+- **NFR24:** Rollback must be possible to previous versions
+- **NFR25:** Application must not require manual configuration per environment
+- **NFR26:** Application must include comprehensive README for setup and architecture
 
 ### Monitoring & Observability
 
-- **NFR35:** Application must log errors with sufficient detail for debugging
-- **NFR36:** User actions must be traceable for troubleshooting
-- **NFR37:** Performance metrics must be measurable (response times, sync latency)
+- **NFR27:** Application must log errors with sufficient detail for debugging
+- **NFR28:** User actions must be traceable for troubleshooting
+- **NFR29:** Performance metrics must be measurable (response times)

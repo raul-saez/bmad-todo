@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom'
 import 'jest-axe/extend-expect'
+import { structuredClone as nodeStructuredClone } from 'node:util'
 
 // Mock Broadcast Channel API with cross-instance communication
 class MockBroadcastChannel {
@@ -36,6 +37,11 @@ class MockBroadcastChannel {
 }
 
 global.BroadcastChannel = MockBroadcastChannel as any
+
+if (typeof globalThis.structuredClone !== 'function') {
+  globalThis.structuredClone =
+    nodeStructuredClone as unknown as typeof structuredClone
+}
 
 // Mock fetch globally
 Object.defineProperty(global, 'fetch', {

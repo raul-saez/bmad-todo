@@ -5,14 +5,14 @@ This document outlines the comprehensive testing approach for bmad-todo, coverin
 ## Overview
 
 - **Test Framework**: Jest + React Testing Library
-- **Coverage Target**: 80% global threshold (branches, functions, lines, statements)
+- **Coverage Target**: 70% global threshold (branches, functions, lines, statements)
 - **Test Types**: Unit, Integration, E2E, Accessibility
 - **CI/CD**: GitHub Actions with automated testing on push and PR
 
 ## Testing Pyramid
 
 ```
-     E2E Tests (Cypress)
+    E2E Tests (Playwright)
   Integration Tests (Jest)
    Unit Tests (Jest + RTL)
 ```
@@ -89,7 +89,7 @@ Each route has integration tests covering:
 - Multi-tab sync behavior
 
 ### Tools
-- Cypress or Playwright
+- Playwright
 - Real database (not mocked)
 - Browser automation
 
@@ -175,16 +175,16 @@ npm test -- --watch
 ```bash
 npm run test:e2e
 # or
-npm run test:e2e:open  # Opens Cypress UI
+npm run test:e2e:ui  # Opens Playwright UI
 ```
 
 ## Coverage Thresholds
 
 Global minimums enforced:
-- **Branches**: 80%
-- **Functions**: 80%
-- **Lines**: 80%
-- **Statements**: 80%
+- **Branches**: 70%
+- **Functions**: 70%
+- **Lines**: 70%
+- **Statements**: 70%
 
 Exceptions documented in jest.config.ts with rationale.
 

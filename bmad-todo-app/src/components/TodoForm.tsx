@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FormEvent } from 'react'
+import React, { FormEvent, useRef } from 'react'
 import { useTodoForm } from '@/hooks/useTodoForm'
 
 interface TodoFormProps {
@@ -13,6 +13,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({
   isSubmitting = false,
 }) => {
   const { title, error, setTitle, reset, validate } = useTodoForm()
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -23,6 +24,15 @@ export const TodoForm: React.FC<TodoFormProps> = ({
 
     await onSubmit(title)
     reset()
+    inputRef.current?.focus()
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      reset()
+      inputRef.current?.focus()
+    }
   }
 
   return (
@@ -36,9 +46,11 @@ export const TodoForm: React.FC<TodoFormProps> = ({
       <div className="flex gap-2">
         <input
           id="todo-input"
+          ref={inputRef}
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Enter a new todo..."
           maxLength={500}
           className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -55,7 +67,12 @@ export const TodoForm: React.FC<TodoFormProps> = ({
         </button>
       </div>
       {error && (
-        <p id="error-message" className="text-sm text-red-600">
+        <p
+          id="error-message"
+          role="alert"
+          aria-live="assertive"
+          className="text-sm text-red-600"
+        >
           {error}
         </p>
       )}
