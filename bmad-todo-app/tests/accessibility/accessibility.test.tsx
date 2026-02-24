@@ -1,6 +1,6 @@
 /**
  * Accessibility Tests for Todo App
- * 
+ *
  * Tests keyboard navigation, ARIA labels, screen reader support, and focus management
  */
 
@@ -55,7 +55,7 @@ describe('Accessibility Tests', () => {
           todos={mockTodos}
           onToggle={jest.fn()}
           onDelete={jest.fn()}
-        />
+        />,
       )
 
       const list = screen.getByRole('list')
@@ -69,13 +69,15 @@ describe('Accessibility Tests', () => {
           onToggle={jest.fn()}
           onDelete={jest.fn()}
           isLoading={true}
-        />
+        />,
       )
 
       const statuses = screen.getAllByRole('status')
       expect(statuses.length).toBeGreaterThan(0)
       // The container should have aria-live="polite"
-      const container = statuses.find(el => el.getAttribute('aria-live') === 'polite')
+      const container = statuses.find(
+        (el) => el.getAttribute('aria-live') === 'polite',
+      )
       expect(container).toBeDefined()
     })
 
@@ -86,7 +88,7 @@ describe('Accessibility Tests', () => {
           onToggle={jest.fn()}
           onDelete={jest.fn()}
           error="Test error"
-        />
+        />,
       )
 
       const alert = screen.getByRole('alert')
@@ -99,7 +101,7 @@ describe('Accessibility Tests', () => {
           todos={mockTodos}
           onToggle={jest.fn()}
           onDelete={jest.fn()}
-        />
+        />,
       )
 
       const progressbar = screen.getByRole('progressbar')
@@ -120,7 +122,7 @@ describe('Accessibility Tests', () => {
           completed={false}
           onToggle={jest.fn()}
           onDelete={jest.fn()}
-        />
+        />,
       )
 
       const checkbox = screen.getByRole('checkbox')
@@ -135,10 +137,12 @@ describe('Accessibility Tests', () => {
           completed={false}
           onToggle={jest.fn()}
           onDelete={jest.fn()}
-        />
+        />,
       )
 
-      const deleteButton = screen.getByRole('button', { name: /delete "test todo"/i })
+      const deleteButton = screen.getByRole('button', {
+        name: /delete "test todo"/i,
+      })
       expect(deleteButton).toBeInTheDocument()
     })
 
@@ -150,7 +154,7 @@ describe('Accessibility Tests', () => {
           completed={false}
           onToggle={jest.fn()}
           onDelete={jest.fn()}
-        />
+        />,
       )
 
       const checkbox = screen.getByRole('checkbox')
@@ -165,7 +169,7 @@ describe('Accessibility Tests', () => {
           completed={false}
           onToggle={jest.fn()}
           onDelete={jest.fn()}
-        />
+        />,
       )
 
       const button = screen.getByRole('button')
@@ -192,7 +196,7 @@ describe('Accessibility Tests', () => {
           completed={false}
           onToggle={jest.fn()}
           onDelete={jest.fn()}
-        />
+        />,
       )
 
       // Focus indicators are handled by CSS :focus-visible
@@ -213,11 +217,7 @@ describe('Accessibility Tests', () => {
       ]
 
       render(
-        <TodoList
-          todos={todos}
-          onToggle={jest.fn()}
-          onDelete={jest.fn()}
-        />
+        <TodoList todos={todos} onToggle={jest.fn()} onDelete={jest.fn()} />,
       )
 
       // Look for the completion status text
@@ -228,13 +228,7 @@ describe('Accessibility Tests', () => {
     })
 
     it('provides status updates for empty state', () => {
-      render(
-        <TodoList
-          todos={[]}
-          onToggle={jest.fn()}
-          onDelete={jest.fn()}
-        />
-      )
+      render(<TodoList todos={[]} onToggle={jest.fn()} onDelete={jest.fn()} />)
 
       const text = screen.getByText(/no todos yet/i)
       expect(text).toBeInTheDocument()
@@ -246,11 +240,7 @@ describe('Accessibility Tests', () => {
       const todos = [todoFactory({ id: '1', title: 'Test' })]
 
       render(
-        <TodoList
-          todos={todos}
-          onToggle={jest.fn()}
-          onDelete={jest.fn()}
-        />
+        <TodoList todos={todos} onToggle={jest.fn()} onDelete={jest.fn()} />,
       )
 
       // Verify proper semantic HTML

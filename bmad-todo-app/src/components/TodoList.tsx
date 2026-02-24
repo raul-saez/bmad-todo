@@ -22,21 +22,12 @@ export const TodoList: React.FC<TodoListProps> = ({
   error,
 }) => {
   if (error) {
-    return (
-      <ErrorMessage
-        title="Error loading todos"
-        message={error}
-      />
-    )
+    return <ErrorMessage title="Error loading todos" message={error} />
   }
 
   if (isLoading) {
     return (
-      <div
-        role="status"
-        aria-live="polite"
-        className="space-y-2 sm:space-y-3"
-      >
+      <div role="status" aria-live="polite" className="space-y-2 sm:space-y-3">
         <TodoSkeleton />
         <TodoSkeleton />
         <TodoSkeleton />

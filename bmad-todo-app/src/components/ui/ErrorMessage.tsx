@@ -37,8 +37,12 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
           </svg>
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm sm:text-base font-medium text-red-800">{title}</h3>
-          <p className="text-xs sm:text-sm text-red-700 mt-1 break-words">{message}</p>
+          <h3 className="text-sm sm:text-base font-medium text-red-800">
+            {title}
+          </h3>
+          <p className="text-xs sm:text-sm text-red-700 mt-1 break-words">
+            {message}
+          </p>
           {onRetry && (
             <button
               onClick={onRetry}

@@ -71,7 +71,10 @@ export const TodoForm: React.FC<TodoFormProps> = ({
         >
           {isSubmitting ? (
             <>
-              <LoadingSpinner size="sm" className="border-white border-t-white/30" />
+              <LoadingSpinner
+                size="sm"
+                className="border-white border-t-white/30"
+              />
               <span>Adding...</span>
             </>
           ) : (
