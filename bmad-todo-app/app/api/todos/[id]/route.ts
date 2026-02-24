@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import { UpdateTodoSchema } from '@/lib/schemas'
 import { ZodError } from 'zod'
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params
     const todo = await prisma.todo.findUnique({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (!todo) {
@@ -21,18 +22,19 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(todo)
   } catch (error) {
-    console.error(`GET /api/todos/[${params.id}] error:`, error)
+    console.error('GET /api/todos/[id] error:', error)
     return NextResponse.json({ error: 'Failed to fetch todo' }, { status: 500 })
   }
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params
     const body = await request.json()
     const validated = UpdateTodoSchema.parse(body)
 
     const todo = await prisma.todo.findUnique({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (!todo) {
@@ -40,7 +42,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     const updated = await prisma.todo.update({
-      where: { id: params.id },
+      where: { id },
       data: validated,
     })
 
@@ -52,7 +54,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
         { status: 400 },
       )
     }
-    console.error(`PATCH /api/todos/[${params.id}] error:`, error)
+    console.error('PATCH /api/todos/[id] error:', error)
     return NextResponse.json(
       { error: 'Failed to update todo' },
       { status: 500 },
@@ -62,8 +64,9 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
+    const { id } = await params
     const todo = await prisma.todo.findUnique({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (!todo) {
@@ -71,12 +74,12 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     await prisma.todo.delete({
-      where: { id: params.id },
+      where: { id },
     })
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error(`DELETE /api/todos/[${params.id}] error:`, error)
+    console.error('DELETE /api/todos/[id] error:', error)
     return NextResponse.json(
       { error: 'Failed to delete todo' },
       { status: 500 },
