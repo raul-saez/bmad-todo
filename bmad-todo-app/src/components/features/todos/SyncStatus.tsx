@@ -29,7 +29,7 @@ export const SyncStatus = ({ onRetry }: SyncStatusProps) => {
     <div
       role="status"
       aria-live="polite"
-      className={`flex flex-wrap items-center gap-3 rounded-lg border px-3 py-2 text-sm ${styles.className}`}
+      className={`flex flex-wrap items-center gap-2 sm:gap-3 rounded-lg border px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm ${styles.className}`}
     >
       <span className="font-semibold">{styles.label}</span>
       {syncStatus === 'synced' && lastSyncTime ? (
@@ -38,13 +38,15 @@ export const SyncStatus = ({ onRetry }: SyncStatusProps) => {
         </span>
       ) : null}
       {syncStatus === 'error' && syncError ? (
-        <span className="text-xs text-rose-700/80">{syncError}</span>
+        <span className="text-xs text-rose-700/80 break-words">
+          {syncError}
+        </span>
       ) : null}
       {syncStatus === 'error' && onRetry ? (
         <button
           type="button"
           onClick={onRetry}
-          className="ml-auto rounded-md border border-rose-200 bg-white px-2 py-1 text-xs font-medium text-rose-700 shadow-sm transition hover:bg-rose-50"
+          className="ml-auto rounded-md border border-rose-200 bg-white px-2 py-1 text-xs font-medium text-rose-700 shadow-sm transition hover:bg-rose-50 flex-shrink-0"
         >
           Retry
         </button>

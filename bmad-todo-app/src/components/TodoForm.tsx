@@ -2,6 +2,7 @@
 
 import React, { FormEvent, useRef } from 'react'
 import { useTodoForm } from '@/hooks/useTodoForm'
+import { LoadingSpinner } from './ui/LoadingSpinner'
 
 interface TodoFormProps {
   onSubmit: (title: string) => Promise<void>
@@ -38,12 +39,17 @@ export const TodoForm: React.FC<TodoFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-2 p-4 bg-white rounded-lg border"
+      role="form"
+      aria-label="Add new todo"
+      className="flex flex-col gap-2 p-3 sm:p-4 bg-white rounded-lg border shadow-sm"
     >
-      <label htmlFor="todo-input" className="text-sm font-medium text-gray-700">
+      <label
+        htmlFor="todo-input"
+        className="text-xs sm:text-sm font-medium text-gray-700"
+      >
         Add a new todo
       </label>
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         <input
           id="todo-input"
           ref={inputRef}
@@ -61,9 +67,16 @@ export const TodoForm: React.FC<TodoFormProps> = ({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-4 py-2 font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
-          {isSubmitting ? 'Adding...' : 'Add'}
+          {isSubmitting ? (
+            <>
+              <LoadingSpinner size="sm" className="border-white border-t-white/30" />
+              <span>Adding...</span>
+            </>
+          ) : (
+            'Add'
+          )}
         </button>
       </div>
       {error && (

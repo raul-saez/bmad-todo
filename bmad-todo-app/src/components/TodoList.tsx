@@ -3,6 +3,8 @@
 import React from 'react'
 import { Todo } from '@/lib/schemas'
 import { TodoItem } from './TodoItem'
+import { TodoSkeleton } from './ui/Skeleton'
+import { ErrorMessage } from './ui/ErrorMessage'
 
 interface TodoListProps {
   todos: Todo[]
@@ -21,14 +23,10 @@ export const TodoList: React.FC<TodoListProps> = ({
 }) => {
   if (error) {
     return (
-      <div
-        role="alert"
-        aria-live="assertive"
-        className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-800"
-      >
-        <p className="font-medium">Error loading todos</p>
-        <p className="text-sm mt-1">{error}</p>
-      </div>
+      <ErrorMessage
+        title="Error loading todos"
+        message={error}
+      />
     )
   }
 
@@ -37,9 +35,11 @@ export const TodoList: React.FC<TodoListProps> = ({
       <div
         role="status"
         aria-live="polite"
-        className="p-4 text-center text-gray-500"
+        className="space-y-2 sm:space-y-3"
       >
-        <p>Loading todos...</p>
+        <TodoSkeleton />
+        <TodoSkeleton />
+        <TodoSkeleton />
       </div>
     )
   }
@@ -49,9 +49,11 @@ export const TodoList: React.FC<TodoListProps> = ({
       <div
         role="status"
         aria-live="polite"
-        className="p-4 text-center text-gray-500"
+        className="p-3 sm:p-4 text-center text-gray-500"
       >
-        <p>No todos yet. Add one to get started!</p>
+        <p className="text-sm sm:text-base">
+          No todos yet. Add one to get started!
+        </p>
       </div>
     )
   }
@@ -59,19 +61,19 @@ export const TodoList: React.FC<TodoListProps> = ({
   const completedCount = todos.filter((t) => t.completed).length
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+    <div className="space-y-3 sm:space-y-4">
+      <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
         <p
-          className="text-sm text-gray-600"
+          className="text-xs sm:text-sm text-gray-600"
           aria-live="polite"
           aria-atomic="true"
         >
           {completedCount} of {todos.length} completed
         </p>
         {completedCount > 0 && (
-          <div className="w-full bg-gray-200 rounded-full h-2 ml-3">
+          <div className="w-full bg-gray-200 rounded-full h-1.5 sm:h-2 ml-2 sm:ml-3">
             <div
-              className="bg-green-600 h-2 rounded-full transition-all"
+              className="bg-green-600 h-1.5 sm:h-2 rounded-full transition-all"
               style={{ width: `${(completedCount / todos.length) * 100}%` }}
               role="progressbar"
               aria-valuenow={completedCount}
@@ -81,7 +83,8 @@ export const TodoList: React.FC<TodoListProps> = ({
           </div>
         )}
       </div>
-      <ul className="space-y-2" role="list">
+      <ul className="space-y-2 sm:space-y-3" role="list">
+        \n{' '}
         {todos.map((todo) => (
           <TodoItem
             key={todo.id}
