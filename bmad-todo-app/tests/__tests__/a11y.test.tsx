@@ -11,13 +11,15 @@ describe('Accessibility Tests (WCAG 2.1)', () => {
   describe('TodoItem Component', () => {
     it('should have no accessibility violations', async () => {
       const { container } = render(
-        <TodoItem
-          id="1"
-          title="Test"
-          completed={false}
-          onToggle={jest.fn()}
-          onDelete={jest.fn()}
-        />,
+        <ul>
+          <TodoItem
+            id="1"
+            title="Test"
+            completed={false}
+            onToggle={jest.fn()}
+            onDelete={jest.fn()}
+          />
+        </ul>,
       )
       const results = await axe(container)
       expect(results).toHaveNoViolations()
@@ -25,13 +27,15 @@ describe('Accessibility Tests (WCAG 2.1)', () => {
 
     it('should have proper ARIA labels', () => {
       render(
-        <TodoItem
-          id="1"
-          title="Test Todo"
-          completed={false}
-          onToggle={jest.fn()}
-          onDelete={jest.fn()}
-        />,
+        <ul>
+          <TodoItem
+            id="1"
+            title="Test Todo"
+            completed={false}
+            onToggle={jest.fn()}
+            onDelete={jest.fn()}
+          />
+        </ul>,
       )
       expect(
         screen.getByLabelText(/mark "Test Todo" as complete/i),
@@ -43,13 +47,15 @@ describe('Accessibility Tests (WCAG 2.1)', () => {
       const mockToggle = jest.fn()
       const mockDelete = jest.fn()
       const { container } = render(
-        <TodoItem
-          id="1"
-          title="Test"
-          completed={false}
-          onToggle={mockToggle}
-          onDelete={mockDelete}
-        />,
+        <ul>
+          <TodoItem
+            id="1"
+            title="Test"
+            completed={false}
+            onToggle={mockToggle}
+            onDelete={mockDelete}
+          />
+        </ul>,
       )
       const checkbox = container.querySelector('input[type="checkbox"]')
       const deleteButton = container.querySelector('button')
